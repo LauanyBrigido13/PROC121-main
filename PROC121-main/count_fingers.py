@@ -16,14 +16,14 @@ hands = mp_hands.Hands(min_detection_confidence=0.8, min_tracking_confidence=0.5
 tipIds = [0, 4, 8, 12, 16, 20]
 
 def countFingers(image, hand_landmarks, handNo=0):
+    if hand_landmarks:
     # defina a função aqui
-    landmarks = hand_landmarks[handNo].landmark
+        landmarks = hand_landmarks[handNo].landmark
 
     #lista para contar os dedos
     fingers = []
 
     for lm_index in tipIds:
-        fingerId = int((lm_index-1)/4)
         # obtenha as coordenadas Y da ponta e da base do dedo
         finger_tip_y = landmarks[lm_index].y
         finger_bottom_y = landmarks[lm_index - 2].y
@@ -33,17 +33,17 @@ def countFingers(image, hand_landmarks, handNo=0):
         else:
             fingers.append(0)
         #conte o total de dedos abertos
-        totalFingers = fingers.count(1)
+    totalFingers = fingers.count(1)
 
         #exiba o texto com o número de dedos abertos
-        text = f'Dedos: {totalFingers}'
-        cv2.putText(image, text, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
+    text = f'Dedos: {totalFingers}'
+    cv2.putText(image, text, (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
 
 def drawHandLandmarks(image, hand_landmarks):
     # Defina uma função para desenhar os pontos de referência da mão aqui
     if hand_landmarks:
         for landmarks in hand_landmarks:
-            mp_drawing.draw_landmarks(image, landmarks, mp.hands.HAND_CONNECTIONS)
+            mp_drawing.draw_landmarks(image, landmarks, mp_hands.HAND_CONNECTIONS)
 
 # Loop principal
 while True:
